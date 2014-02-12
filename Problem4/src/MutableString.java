@@ -57,7 +57,7 @@ public class MutableString
   // +-----------+
 
   /**
-   * Get the ith characater of this string.
+   * Get the ith character of this string.
    *
    * @pre 0 <= i < this.length()
    */
