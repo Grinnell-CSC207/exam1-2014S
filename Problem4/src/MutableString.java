@@ -12,6 +12,11 @@ public class MutableString
   // | Fields |
   // +--------+
 
+  /**
+   * The contents of the string.
+   */
+  char contents[];
+
   // +--------------+------------------------------------------------------
   // | Constructors |
   // +--------------+
