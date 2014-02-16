@@ -13,7 +13,8 @@ public class MutableString
   // +--------+
 
   /**
-   * The contents of the string.
+   * The contents of the string.  May include extra capacity to make
+   * it simpler to expand the string.
    */
   char contents[];
 
