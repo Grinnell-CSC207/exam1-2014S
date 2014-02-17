@@ -158,10 +158,8 @@ public class MutableString
    *
    * @pre
    *   0 <= i < this.length()
-  /**
-   * Prepend str to the beginning of the string.
    */
-  public void prepend(String str)
+  public void prepend(int i, String str)
   {
     // STUB
   } // prepend(String)
