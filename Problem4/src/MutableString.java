@@ -8,6 +8,16 @@
  */
 public class MutableString
 {
+
+  // +-----------+---------------------------------------------------------
+  // | Constants |
+  // +-----------+
+
+  /**
+   * The default capacity of a mutable string.
+   */
+  static final int DEFAULT_CAPACITY = 16;
+
   // +--------+------------------------------------------------------------
   // | Fields |
   // +--------+
@@ -18,6 +28,11 @@ public class MutableString
    */
   char contents[];
 
+  /**
+   * The actual size of the string.
+   */
+  int size;
+
   // +--------------+------------------------------------------------------
   // | Constructors |
   // +--------------+
@@ -27,7 +42,8 @@ public class MutableString
    */
   public MutableString()
   {
-    // STUB
+    this.contents = new char[DEFAULT_CAPACITY];
+    this.size = 0;
   } // MutableString()
 
   /**
@@ -35,8 +51,35 @@ public class MutableString
    */
   public MutableString(String str)
   {
-    // STUB
+    this.size = str.length();
+    this.contents = new char[computeCapacity(this.size)];
+    for (int i = 0; i < size; i++)
+      this.contents[i] = str.charAt(i);
   } // MutableString(String)
+
+  // +---------+-----------------------------------------------------------
+  // | Helpers |
+  // +---------+
+
+  /**
+   * Compute the first reaonable capacity larger than mincap.
+   */
+  public int computeCapacity(int mincap)
+  {
+    // Start at either the default or current capacity
+    int capacity = DEFAULT_CAPACITY;
+    if (this.contents != null)
+      capacity = this.contents.length;
+
+    // Keep increasing until we are large enoug
+    while (capacity < mincap)
+      {
+        capacity *= 2;
+      } // while
+    
+    // And we're done
+    return capacity;
+  } // computeCapacity(int)
 
   // +-------------------------+-------------------------------------------
   // | Standard Object Methods |
@@ -69,7 +112,7 @@ public class MutableString
    */
   public char charAt(int i)
   {
-    return ' '; // STUB
+    return this.contents[i];
   } // charAt(int)
 
   /**
@@ -85,7 +128,7 @@ public class MutableString
    */
   public int length()
   {
-    return 0;   // STUB
+    return this.size;
   } // length()
 
   // +----------+----------------------------------------------------------
@@ -97,7 +140,16 @@ public class MutableString
    */
   public void append(String str)
   {
-    // STUB
+    int newsize = this.size + str.length();
+
+    // If there's insufficient capacity, make a new array
+    if (newsize >= this.contents.length)
+      {
+        char[] oldcontents = this.contents;
+        this.contents = new char[computeCapacity(newsize)];
+        for (int i = 0; i < this.size; i++)
+          this.contents[i] = oldcontents[i];
+      } // if
   } // append(String)
 
   /**
