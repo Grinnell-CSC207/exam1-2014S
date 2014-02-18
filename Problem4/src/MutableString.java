@@ -8,6 +8,16 @@
  */
 public class MutableString
 {
+  // +-------+-------------------------------------------------------------
+  // | Notes |
+  // +-------+
+
+/*
+  We store strings in arrays of characters.  When we need to expand
+  the array, we double the size of the array.  That suggests we never
+  use more than twice as much is necessary (well, except when we then
+  delete characters), but keeps running time relatively good.
+ */
 
   // +-----------+---------------------------------------------------------
   // | Constants |
@@ -98,7 +108,7 @@ public class MutableString
    */
   public String toString()
   {
-    return "";  // STUB
+    return new String(this.contents, 0, this.size);  // STUB
   } // toString()
 
   // +-----------+---------------------------------------------------------
@@ -150,6 +160,13 @@ public class MutableString
         for (int i = 0; i < this.size; i++)
           this.contents[i] = oldcontents[i];
       } // if
+
+    // Copy the characters.
+    for (int i = this.size; i < newsize; i++)
+      this.contents[i] = str.charAt(i - this.size);
+
+    // Update the size
+    this.size = newsize;
   } // append(String)
 
   /**
@@ -161,7 +178,35 @@ public class MutableString
    */
   public void prepend(int i, String str)
   {
-    // STUB
+    int len = str.length();
+    int newsize = this.size + len;
+
+    // If there's insufficient capacity, make a new array,
+    // leaving space for the string to be prepended.
+    if (newsize >= this.contents.length)
+      {
+        char[] oldcontents = this.contents;
+        this.contents = new char[computeCapacity(newsize)];
+        for (int j = 0; j < i; j++)
+          this.contents[j] = oldcontents[j];
+        for (int j = i; j < this.size; j++)
+          this.contents[j + len] = oldcontents[j];
+      } // if there's insufficient space
+
+    // Otherwise, there's sufficient capacity, but we need to
+    // make a space in the array.
+    else
+      {
+        for (int j = this.size-1; j >= i; j--)
+          this.contents[j + len] = this.contents[j];
+      } // else
+
+    // There's space.  Put things in
+    for (int j = 0; j < len; j++)
+      this.contents[i+j] = str.charAt(j);
+
+    // And that's it
+    this.size = newsize;
   } // prepend(String)
 
   /**
@@ -170,7 +215,10 @@ public class MutableString
    */
   public void remove(int start, int end)
   {
-    // STUB
+    int offset = end - start;
+    for (int i = end; i < this.size; i++)
+      this.contents[i - offset] = this.contents[i];
+    this.size -= offset;
   } // remove(int, int)
 
   /**
