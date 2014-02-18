@@ -80,6 +80,7 @@ public class StringifyTest
     checkStringify("examples/in02.txt", "examples/out02.txt");
     checkStringify("examples/in03.txt", "examples/out03.txt");
     checkStringify("examples/in04.txt", "examples/out04.txt");
+    checkStringify("examples/in05.txt", "examples/out05.txt");
   } // test()
 
 } // class StringifyTest
